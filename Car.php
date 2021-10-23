@@ -1,100 +1,46 @@
 <?php
 
-class Car{
-    private int $nbWheels;
-    private int $currentSpeed;
-    private string $color;
-    private int $nbSeets;
-    private string $energy;
-    private int $energyLevel;
 
-    /**Ainsi que les méthodes suivantes :
+require_once 'Vehicle.php';
 
-    Le constructeur avec la couleur, le nombre de sièges et le  d'énergie comme paramètres.
-    Démarrer;
-    Avancer;
-    Freiner;
-    Les accesseurs des propriétés.
- */
-    public function __construct(string $color, int $nbSeets, string $energy)
+
+class Car extends Vehicle
+{
+    protected string $energy;
+    protected int $energyLevel;
+
+    public const ALLOWED_ENERGIES = [
+        'fuel',
+        'electric',
+    ];
+
+    public function __construct(string $color, int $nbSeats, string $energy)
+
     {
-        $this->nbWheels = 4;
-        $this->currentSpeed = 0;
-        $this->color = $color;
-        $this->nbSeets = $nbSeets;
+        parent::__construct($color, $nbSeats);
         $this->energy = $energy;
-        $this->energyLevel = 0;
     }
 
-    public function forward(): string{
-        if($this->currentSpeed > 0){
-            $this->currentSpeed += 15;
-            return "Pushed the shroomy !";
-        } else {
-            return "start the car first !";
-        }
-    }
-
-    public function brake(): string{
-        $sentence = "";
-        while ($this->currentSpeed > 0) {
-            $this->currentSpeed--;
-            $sentence .= "Brake !!!";
-        }
-        $sentence .= "I'm stopped !";
-        return $sentence;
-    }
-
-    public function start(): string{
-        $this->currentSpeed = 1;
-        return "Here we go!";
-    }
-
-    /**
-     * Get the value of nbWheels
-     */ 
-    public function getNbWheels(): int
+    public function getEnergy(): string
     {
-        return $this->nbWheels;
+        return $this->energy;
     }
 
-    /**
-     * Get the value of currentSpeed
-     */ 
-    public function getCurrentSpeed(): int
+    public function setEnergy(string $energy): Car
     {
-        return $this->currentSpeed;
+        if (in_array($energy, self::ALLOWED_ENERGIES)) {
+            $this->energy = $energy;
+        }
+        return $this;
     }
 
-    /**
-     * Get the value of energyLevel
-     */ 
     public function getEnergyLevel(): int
     {
         return $this->energyLevel;
     }
 
-    /**
-     * Get the value of color
-     */ 
-    public function getColor(): string
+    public function setEnergyLevel(int $energyLevel): void
     {
-        return $this->color;
-    }
-
-    /**
-     * Get the value of nbSeets
-     */ 
-    public function getNbSeets(): int
-    {
-        return $this->nbSeets;
-    }
-
-    /**
-     * Get the value of energy
-     */ 
-    public function getEnergy(): string
-    {
-        return $this->energy;
+        $this->energyLevel = $energyLevel;
     }
 }
